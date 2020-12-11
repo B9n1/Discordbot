@@ -1,7 +1,6 @@
 # bot.py
 import asyncio
 import os
-
 import discord
 from dotenv import load_dotenv
 
@@ -9,6 +8,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 client = discord.Client()
+
 
 @client.event
 async def on_ready():
@@ -23,10 +23,12 @@ async def status_task():
         await client.change_presence(activity=discord.Game('MeinBot!'), status=discord.Status.online)
         await asyncio.sleep(3)
 
-async def on_massage(message):
-    if message.author.user.bot:
+
+@client.event
+async def on_message(message):
+    if message.author.bot:
         return
-    await message.chanel.send('Du hast geschickt : {}' .format(message.content))
+    await message.channel.send('Du hast geschickt : {}'.format(message.content))
 
 
 
