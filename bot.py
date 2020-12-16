@@ -1,36 +1,52 @@
 # bot.py
 import asyncio
+import random
 import os
 import discord
+from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
+bot = commands.Bot(command_prefix='!')
+
 client = discord.Client()
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print(f'{bot.user} has connected to Discord!')
     client.loop.create_task(status_task())
 
 
 async def status_task():
     while True:
-        await client.change_presence(activity=discord.Game('discord.gg/devsky'), status=discord.Status.online)
+        await bot.change_presence(activity=discord.Game('write !help for help'), status=discord.Status.online)
         await asyncio.sleep(3)
-        await client.change_presence(activity=discord.Game('MeinBot!'), status=discord.Status.online)
+        await bot.change_presence(activity=discord.Game('Beni´s Bester Bot V 1.0'), status=discord.Status.online)
         await asyncio.sleep(3)
+################################################################################################
+#                                          Bot Commands                                        #
+################################################################################################
 
 
+@bot.command(name='decide', help='Decide for you one of the options.')
+async def decider(ctx, *, txt="Yes or No"):
+    txt = txt.replace(" oder ", " or ")
+    options = txt.split(" or ")
+    response = random.choice(options)
+    await ctx.send(response)
+
+
+bot.run('NzU1OTAxOTE2MDcxOTg1MTcz.X2KChA.RMjdYLQdVL1C5A-5K4897TMa_Rw')
+################################################################################################
+#                                       Code Graveyard                                         #
+################################################################################################
+"""
 @client.event
 async def on_message(message):
     if message.author.bot:
         return
     await message.channel.send('Du hast geschickt : {}'.format(message.content))
-
-
-
-
-client.run('NzU1OTAxOTE2MDcxOTg1MTcz.X2KChA.RMjdYLQdVL1C5A-5K4897TMa_Rw')
+"""
