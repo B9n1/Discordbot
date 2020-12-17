@@ -10,14 +10,21 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 bot = commands.Bot(command_prefix='!')
-
-client = discord.Client()
-
+################################################################################################
+#                                          Bot Events                                          #
+################################################################################################
 
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected to Discord!')
-    client.loop.create_task(status_task())
+    bot.loop.create_task(status_task())
+
+
+@bot.event
+async def on_member_join(member):
+    await member.create_dm()
+    await member.dm_channel.send(
+       f'{member.name} has joined the party!!!!')
 
 
 async def status_task():
@@ -36,7 +43,7 @@ async def decider(ctx, *, txt="Yes or No"):
     txt = txt.replace(" oder ", " or ")
     options = txt.split(" or ")
     response = random.choice(options)
-    await ctx.send(response)
+    await ctx.send(f'I choose you: {response}')
 
 
 bot.run('NzU1OTAxOTE2MDcxOTg1MTcz.X2KChA.RMjdYLQdVL1C5A-5K4897TMa_Rw')
