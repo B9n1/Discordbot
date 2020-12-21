@@ -5,6 +5,8 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from selenium import webdriver
+import time
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -38,7 +40,7 @@ async def status_task():
 ################################################################################################
 
 
-@bot.command(name='decide', help='Decide for you one of the options.')
+@bot.command(name='decider', help='Decide for you one of the options.')
 async def decider(ctx, *, txt="Yes or No"):
     txt = txt.replace(" oder ", " or ")
     options = txt.split(" or ")
@@ -46,7 +48,49 @@ async def decider(ctx, *, txt="Yes or No"):
     await ctx.send(f'I choose you: {response}')
 
 
-bot.run('NzU1OTAxOTE2MDcxOTg1MTcz.X2KChA.RMjdYLQdVL1C5A-5K4897TMa_Rw')
+@bot.command(name='repeat', help='Repeats a message')  #Bot repeats the message n times
+async def repeat(ctx, times: int, content='repeating...'):
+    """Repeats a message multiple times."""
+    for i in range(times):
+        await ctx.send(content)
+
+
+@bot.command(name='self destruction', help='Initiate Self Destruction')
+async def selfdestruction(ctx):
+    await ctx.send(f'!!SELF DESTRUCTION INITIATED!!')
+    await ctx.send(f'COUNT DOWN:')
+    for i in range(10):
+        t=10-i
+        await ctx.send(t)
+
+
+@bot.command(name='w2g')
+async def w2g(ctx):
+    driver = webdriver.Chrome()
+    driver.get("http://www.w2g.tv")
+    time.sleep(2)
+
+    # click coockie button
+    driver.find_element_by_xpath("//button[@class='sc-ifAKCX dvvOSu']").click()
+    time.sleep(1)
+    # Create Room
+    driver.find_element_by_xpath("//button[@class='ui big primary button loading_button']").click()
+    # Joins Room
+    driver.find_element_by_xpath("//div[@class='ui fluid green cancel button']").click()
+    # Copy Room Inv
+    driver.find_element_by_xpath("//div[@class='invite-cta w2g-search-hide w2g-users']").click()
+    time.sleep(1)
+    link = driver.find_element_by_xpath("//input[@class='invite-url']").get_attribute("value")
+    driver.close()
+    await ctx.send(link)
+
+
+@bot.command(name='vote kick', help='Decide for a vote kick.')
+async def votekick(ctx, name: str):
+    await ctx.send(f'Yes')
+
+
+bot.run(TOKEN)
 ################################################################################################
 #                                       Code Graveyard                                         #
 ################################################################################################
