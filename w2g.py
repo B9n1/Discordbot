@@ -3,9 +3,9 @@ import time
 from selenium.webdriver.chrome.options import Options
 #from selenium.webdriver.common.keys import Keys
 
-chrome_options = Options()
-chrome_options.headless = True
-driver = webdriver.Chrome(executable_path='/home/ubuntu/github/Discordbot/chromedriver.exe', options=chrome_options)
+options = Options()
+options.headless = True
+driver = webdriver.Firefox(options=options)
 driver.get("http://www.w2g.tv")
 time.sleep(2)
 
