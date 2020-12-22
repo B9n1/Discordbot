@@ -3,9 +3,8 @@ import time
 from selenium.webdriver.chrome.options import Options
 #from selenium.webdriver.common.keys import Keys
 
-options = Options()
-options.headless = True
-driver = webdriver.Firefox(options=options)
+
+driver = webdriver.Firefox()
 driver.get("http://www.w2g.tv")
 time.sleep(2)
 
