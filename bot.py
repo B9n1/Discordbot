@@ -7,11 +7,14 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from selenium import webdriver
 import time
+from selenium.webdriver.chrome.options import Options
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = 'Token'
 
 bot = commands.Bot(command_prefix='!')
+
+
 ################################################################################################
 #                                          Bot Events                                          #
 ################################################################################################
@@ -26,7 +29,7 @@ async def on_ready():
 async def on_member_join(member):
     await member.create_dm()
     await member.dm_channel.send(
-       f'{member.name} has joined the party!!!!')
+        f'{member.name} has joined the party!!!!')
 
 
 async def status_task():
@@ -35,6 +38,8 @@ async def status_task():
         await asyncio.sleep(3)
         await bot.change_presence(activity=discord.Game('Beni´s Bester Bot V 1.0'), status=discord.Status.online)
         await asyncio.sleep(3)
+
+
 ################################################################################################
 #                                          Bot Commands                                        #
 ################################################################################################
@@ -48,25 +53,28 @@ async def decider(ctx, *, txt="Yes or No"):
     await ctx.send(f'I choose you: {response}')
 
 
-@bot.command(name='repeat', help='Repeats a message')  #Bot repeats the message n times
+@bot.command(name='repeat', help='Repeats a message')  # Bot repeats the message n times
 async def repeat(ctx, times: int, content='repeating...'):
     """Repeats a message multiple times."""
     for i in range(times):
         await ctx.send(content)
 
 
-@bot.command(name='self destruction', help='Initiate Self Destruction')
+@bot.command(name='selfdestruction', help='Initiate Self Destruction')
 async def selfdestruction(ctx):
     await ctx.send(f'!!SELF DESTRUCTION INITIATED!!')
     await ctx.send(f'COUNT DOWN:')
     for i in range(10):
-        t=10-i
-        await ctx.send(t)
+        time.sleep(1)
+        await ctx.send(10-i)
+    await ctx.send('<:youtried:596576824872402974>')
 
 
 @bot.command(name='w2g')
 async def w2g(ctx):
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless --silent")
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get("http://www.w2g.tv")
     time.sleep(2)
 
