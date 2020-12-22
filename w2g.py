@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 
 chrome_options = Options()
 chrome_options.headless = True
-driver = webdriver.Chrome(executable_path='/home/ubuntu/github/Discordbot/chromedriver',options=chrome_options)
+driver = webdriver.Chrome(options=chrome_options)
 driver.get("http://www.w2g.tv")
 time.sleep(2)
 
