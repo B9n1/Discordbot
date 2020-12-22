@@ -3,9 +3,10 @@ import time
 from selenium.webdriver.chrome.options import Options
 #from selenium.webdriver.common.keys import Keys
 
-chrome_options = Options()
-chrome_options.add_argument("--headless --silent")
-driver = webdriver.Chrome(options=chrome_options)
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+driver = webdriver.Chrome(driver_path='/home/ubuntu/github/Discordbot', chrome_options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 driver.get("http://www.w2g.tv")
 time.sleep(2)
 
