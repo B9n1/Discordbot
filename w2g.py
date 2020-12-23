@@ -5,7 +5,7 @@ from selenium.webdriver.chrome.options import Options
 
 options = Options()
 options.headless = True
-driver = webdriver.Firefox(executable_path='geckodriver', options=options)
+driver = webdriver.Firefox(options=options)
 driver.get("http://www.w2g.tv")
 time.sleep(2)
 
