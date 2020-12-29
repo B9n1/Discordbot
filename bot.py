@@ -4,13 +4,11 @@ import random
 import os
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 from selenium import webdriver
 import time
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
-load_dotenv()
-TOKEN = 'Token'
+TOKEN = ''
 
 bot = commands.Bot(command_prefix='!')
 
@@ -72,22 +70,20 @@ async def selfdestruction(ctx):
 
 @bot.command(name='w2g')
 async def w2g(ctx):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless --silent")
-    driver = webdriver.Chrome(options=chrome_options)
+    options = FirefoxOptions()
+    options.headless = True
+    driver = webdriver.Firefox(executable_path='/home/ubuntu/github/Discordbot/geckodriver',options=options)
     driver.get("http://www.w2g.tv")
-    time.sleep(2)
 
     # click coockie button
-    driver.find_element_by_xpath("//button[@class='sc-ifAKCX dvvOSu']").click()
-    time.sleep(1)
+    #driver.find_element_by_xpath("//button[@class='sc-ifAKCX dvvOSu']").click()
+    #time.sleep(1)
     # Create Room
     driver.find_element_by_xpath("//button[@class='ui big primary button loading_button']").click()
     # Joins Room
     driver.find_element_by_xpath("//div[@class='ui fluid green cancel button']").click()
     # Copy Room Inv
     driver.find_element_by_xpath("//div[@class='invite-cta w2g-search-hide w2g-users']").click()
-    time.sleep(1)
     link = driver.find_element_by_xpath("//input[@class='invite-url']").get_attribute("value")
     driver.close()
     await ctx.send(link)
