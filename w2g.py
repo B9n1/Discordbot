@@ -1,24 +1,25 @@
-from selenium import webdriver
-import time
-from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.common.keys import Keys
+import json
+import requests
+from discord.ext import commands
 
-options = Options()
-options.headless = True
-driver = webdriver.Firefox(options=options)
-driver.get("http://www.w2g.tv")
-time.sleep(2)
 
-# click cookie button
-driver.find_element_by_xpath("//button[@class='sc-ifAKCX dvvOSu']").click()
-time.sleep(1)
-# Create Room
-driver.find_element_by_xpath("//button[@class='ui big primary button loading_button']").click()
-# Joins Room
-driver.find_element_by_xpath("//div[@class='ui fluid green cancel button']").click()
-# Copy Room Inv
-driver.find_element_by_xpath("//div[@class='invite-cta w2g-search-hide w2g-users']").click()
-time.sleep(1)
-link = driver.find_element_by_xpath("//input[@class='invite-url']").get_attribute("value")
-driver.close()
-print(link)
+@commands.command(name='w2g', help='Decide for you one of the options.')
+async def w2g(ctx):
+    # Read Jason
+    with open('ApiKeys.json', 'r') as myfile:
+        datafile = myfile.read()
+    Keys = json.loads(datafile)
+    Key = str(Keys['w2g'])
+    w2g_data = {
+        "w2g_api_key": Key,
+        "share": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "bg_color": "#000000",
+        "bg_opacity": "50"
+    }
+    request = requests.post(url="https://w2g.tv/rooms/create.json", data=w2g_data)
+    response = json.loads(request.text)
+    await ctx.send(f"https://w2g.tv/rooms/" + str(response["streamkey"]))
+
+
+def setup(bot):
+    bot.add_command(w2g)

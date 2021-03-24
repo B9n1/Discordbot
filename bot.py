@@ -1,21 +1,33 @@
 # bot.py
 import asyncio
 import random
-import os
+import json
 import discord
 from discord.ext import commands
-from selenium import webdriver
 import time
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
-TOKEN = ''
+# Read Jason
+with open('ApiKeys.json', 'r') as myfile:
+    data = myfile.read()
+Keys = json.loads(data)
+
+TOKEN = str(Keys['Discord'])
 
 bot = commands.Bot(command_prefix='!')
 
+# Loads w2g extension
+bot.load_extension("w2g")
+
+# Loads music extension
+#bot.load_extension("music")
+
+# Loads movie extention
+#bot.load_extension("move")
 
 ################################################################################################
 #                                          Bot Events                                          #
 ################################################################################################
+
 
 @bot.event
 async def on_ready():
@@ -64,29 +76,8 @@ async def selfdestruction(ctx):
     await ctx.send(f'COUNT DOWN:')
     for i in range(10):
         time.sleep(1)
-        await ctx.send(10-i)
+        await ctx.send(10 - i)
     await ctx.send('<:youtried:596576824872402974>')
-
-
-@bot.command(name='w2g')
-async def w2g(ctx):
-    options = FirefoxOptions()
-    options.headless = True
-    driver = webdriver.Firefox(executable_path='/home/ubuntu/github/Discordbot/geckodriver',options=options)
-    driver.get("http://www.w2g.tv")
-
-    # click coockie button
-    #driver.find_element_by_xpath("//button[@class='sc-ifAKCX dvvOSu']").click()
-    #time.sleep(1)
-    # Create Room
-    driver.find_element_by_xpath("//button[@class='ui big primary button loading_button']").click()
-    # Joins Room
-    driver.find_element_by_xpath("//div[@class='ui fluid green cancel button']").click()
-    # Copy Room Inv
-    driver.find_element_by_xpath("//div[@class='invite-cta w2g-search-hide w2g-users']").click()
-    link = driver.find_element_by_xpath("//input[@class='invite-url']").get_attribute("value")
-    driver.close()
-    await ctx.send(link)
 
 
 @bot.command(name='vote kick', help='Decide for a vote kick.')
@@ -95,13 +86,3 @@ async def votekick(ctx, name: str):
 
 
 bot.run(TOKEN)
-################################################################################################
-#                                       Code Graveyard                                         #
-################################################################################################
-"""
-@client.event
-async def on_message(message):
-    if message.author.bot:
-        return
-    await message.channel.send('Du hast geschickt : {}'.format(message.content))
-"""
