@@ -3,7 +3,7 @@ import requests
 from discord.ext import commands
 
 
-@commands.command(name='w2g', help='Decide for you one of the options.')
+@commands.command(name='w2g', help='Creats a W2G Room.')
 async def w2g(ctx):
     # Read Jason
     with open('ApiKeys.json', 'r') as myfile:

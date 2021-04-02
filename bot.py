@@ -5,6 +5,7 @@ import json
 import discord
 from discord.ext import commands
 import time
+from discord.utils import find
 
 # Read Jason
 with open('ApiKeys.json', 'r') as myfile:
@@ -22,8 +23,7 @@ bot.load_extension("w2g")
 #bot.load_extension("music")
 
 # Loads movie extention
-#bot.load_extension("move")
-
+bot.load_extension("movie")
 ################################################################################################
 #                                          Bot Events                                          #
 ################################################################################################
@@ -37,9 +37,8 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    await member.create_dm()
-    await member.dm_channel.send(
-        f'{member.name} has joined the party!!!!')
+    await bot.get_channel(755901503931285639).send(f"{member.name} has joined the server.")
+    print(f"{member.name} has joined the server.")
 
 
 async def status_task():
