@@ -37,7 +37,7 @@ class fun(commands.Cog):
     async def wah(self, ctx, erschwaert=0):
         humor = 50+erschwaert
         wurfel= random.randint(0, 100)
-        goodResponse = ["HAHA, Der war gut. XD", "Nice, der war mega!!", "Legänder!", "Man habe ich mich weggeschmissen!", "Das war ein Hammer!"]
+        goodResponse = ["HAHA, Der war gut. XD", "Nice, der war mega!!", "Legendär!", "Man habe ich mich weggeschmissen!", "Das war ein Hammer!"]
         badResponse = ["Och nö der Musste wirklich nicht sein", "Der war Schmutz!", "Geh dich vergraben!", "Da ist die Tür.", "Der ist so low wie du in CS!"]
         if wurfel <= humor:
             response = goodResponse[random.randint(0, 4)]
